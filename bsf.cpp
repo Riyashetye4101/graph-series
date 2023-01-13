@@ -1,24 +1,24 @@
 #include<bits/stdc++.h>
 #include<utility>
 using namespace std;
-
 void bfs(int startnode,vector<int> *adj,vector<int> &ans,int n){
 	queue<int> q;
 	vector<bool> visited(n+1,false);
 	q.push(startnode);
-    
+    visited[startnode]=true;
 	while(!q.empty()){
 
 		int t=q.front();
 		q.pop();
-		if(!visited[t]){
-            ans.push_back(t);
-            visited[t]=true;
-            
-            for(int i:adj[t]){
-            	q.push(i);
-            }
+		ans.push_back(t);
+
+		for(int i:adj[t]){
+			if(!visited[i]){
+				visited[i]=true;
+				q.push(i);
+			}
 		}
+		
 	}
 
 
