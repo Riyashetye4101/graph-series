@@ -1,0 +1,30 @@
+
+    void dfs(vector<vector<char>> &adj,vector<vector<bool>> &visited,int r,int c,int n, int m){
+            visited[r][c]=true;
+
+            for(int k=0;k<4;k++){
+                int nrow=r+this->rk[k];
+                int ncol=c+this->ck[k];
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && adj[nrow][ncol]==
+                '1' && !visited[nrow][ncol]){
+                    dfs(adj,visited,nrow,ncol,n,m);
+                }
+            }
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        int count=0;
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<bool>> visited(n,vector<bool>(m,false));
+         
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='1' && !visited[i][j]){
+                    count++;
+                    // bfs(i,j,grid,visited,n,m);
+                    dfs(grid,visited,i,j,n,m);
+                }
+            }
+        }
+        return count;
+    }
