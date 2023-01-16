@@ -1,0 +1,41 @@
+class Solution {
+public:
+    
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        vector<vector<int>> adj=mat;
+        
+        int n=adj.size();
+        int m=adj[0].size();
+        
+        vector<vector<int>> ans(n,vector<int>(m,0));
+        vector<vector<bool>> visited(n,vector<bool>(m,false));
+        queue<pair<pair<int,int>,int>> q;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(adj[i][j]==1){
+                    q.push({{i,j},0});
+                    visited[i][j]=true;
+                }
+            }
+        }
+        int rk[4]={-1,0,1,0};
+        int ck[4]={0,1,0,-1};
+        while(!q.empty()){
+            int r=q.front().first.first;
+            int c=q.front().first.second;
+            int t=q.front().second;
+            q.pop();
+            for(int k=0;k<4;k++){
+                int nr=r+rk[k];
+                int nc=c+ck[k];
+                if(nr>=0 && nr<n && nc>=0 && nc<m && adj[nr][nc]==0 && !visited[nr][nc]){
+                    int dis=abs(nr-r)+abs(nc-c)+t;
+                    ans[nr][nc]=dis;
+                    visited[nr][nc]=true;
+                    q.push({{nr,nc},dis});
+                }
+            }
+        }
+        return ans;
+    }
+};
