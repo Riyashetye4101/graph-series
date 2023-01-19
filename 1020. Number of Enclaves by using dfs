@@ -1,0 +1,51 @@
+class Solution {
+public:
+   int rk[4]={-1,0,1,0};
+   int ck[4]={0,1,0,-1};
+   void dfs(int r,int c,vector<vector<int>> &adj,vector<vector<bool>> &visited,int n,int m,int &count){
+       visited[r][c]=true;
+       count++;
+       for(int k=0;k<4;k++){
+           int nr=r+this->rk[k];
+           int nc=c+this->ck[k];
+           if(nr>=0 && nr<n && nc>=0 && nc<m && adj[nr][nc]==1 && !visited[nr][nc]){
+               dfs(nr,nc,adj,visited,n,m,count);
+           }
+       }
+   }
+    int numEnclaves(vector<vector<int>>& grid) {
+        int total=0;
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<bool>> visited(n,vector<bool>(m,false));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1){
+                    total++;
+                }
+            }
+        }
+        int count=0;
+        for(int i=0;i<n;i++){
+            int j=0;
+            if(grid[i][j]==1 && !visited[i][j]){
+                dfs(i,j,grid,visited,n,m,count);
+            }
+            j=m-1;
+            if(grid[i][j]==1 && !visited[i][j]){
+                dfs(i,j,grid,visited,n,m,count);
+            }
+        }
+        for(int i=0;i<m;i++){
+            int j=0;
+            if(grid[j][i]==1 && !visited[j][i]){
+                dfs(j,i,grid,visited,n,m,count);
+            }
+            j=n-1;
+            if(grid[j][i]==1 && !visited[j][i]){
+                dfs(j,i,grid,visited,n,m,count);
+            }
+        }
+        return total-count;
+    }
+};
